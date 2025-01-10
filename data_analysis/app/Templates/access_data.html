@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Row/Column</title>
+    <style>
+        /* Add your page style here */
+        
+        body {
+            background: linear-gradient(to bottom, #000 0%, #282369 100%);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #6a4c9c;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        button {
+            background-color: #9c74c3;
+            color: white;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #8a5cbf;
+        }
+        
+        .data-result pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #9c74c3;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #8a5cbf;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Access Row/Column</h1>
+        <a href="{% url 'upload_file' %}" class="back-button">Back to Upload Page</a>
+
+        <form method="GET" action="{% url 'access_row_column' %}">
+            <div class="form-group">
+                <label for="start_index">Start Index:</label>
+                <input type="number" name="start_index" id="start_index" required>
+            </div>
+
+            <div class="form-group">
+                <label for="end_index">End Index:</label>
+                <input type="number" name="end_index" id="end_index" required>
+            </div>
+
+            <div class="form-group">
+                <label for="column_name">Column Name:</label>
+                <input type="text" name="column_name" id="column_name" placeholder="Enter column name">
+            </div>
+
+            <button type="submit">Get Data</button>
+        </form>
+
+        {% if stats.error %}
+        <div class="error-message">
+            <strong>Error:</strong> {{ stats.error }}
+        </div>
+        {% endif %}
+        {% if data %}
+        <div class="data-result">
+            {% if row_data %}
+            <h2>Row Data (Range: {{ start_index }} to {{ end_index }})</h2>
+            <pre>{{ row_data }}</pre> 
+            {% endif %}
+            {% if column_data %}
+            <h2>Column Data (Column: {{ column_name }})</h2>
+            <pre>{{ column_data }}</pre> 
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

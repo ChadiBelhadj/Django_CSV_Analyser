@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Preview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #000 0%, #282369 100%);
+
+            margin: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #6a4c9c;
+        }
+        
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table.data-table th,
+        table.data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        table.data-table th {
+            background-color: #9c74c3;
+            color: white;
+        }
+        
+        table.data-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        table.data-table tr:hover {
+            background-color: #ddd;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #9c74c3;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: #8a5cbf;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <a href="{% url 'upload_file' %}" class="back-button">Back to Upload Page</a>
+        <h1>Data Preview</h1>
+        <div>
+            {{ data_html|safe }}
+        </div>
+    </div>
+</body>
+
+</html>

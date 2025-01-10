@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Data Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #000 0%, #282369 100%);
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            margin: 0;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        select,
+        button {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .plot-container {
+            margin: 20px auto;
+            max-width: 900px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        p {
+            text-align: center;
+            color: #666;
+        }
+        
+        .no-data-message {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            margin-left: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="{% url 'upload_file' %}" class="back-button">Back to Upload Page</a>
+
+    <form method="GET" action="{% url 'visualization' %}">
+        <label for="plot_type">Choose Plot Type:</label>
+        <select id="plot_type" name="plot_type">
+            <option value="scatter">Scatter Plot</option>
+            <option value="line">Line Plot</option>
+            <option value="bar">Bar Chart</option>
+            <option value="histogram">Histogram</option>
+            <option value="box">Box Plot</option>
+            <option value="pie">Pie Chart</option>
+            <option value="xy_line">XY Line Graph</option>
+        </select>
+
+        <label for="column_x">X-Axis:</label>
+        <select id="column_x" name="column_x">
+            {% for column in columns %}
+            <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="column_y">Y-Axis:</label>
+        <select id="column_y" name="column_y">
+            {% for column in columns %}
+            <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Generate Visualization</button>
+    </form>
+
+    <!-- Display Plotly Visualization -->
+    {% if plot_div %}
+    <div class="plot-container">
+        {{ plot_div|safe }}
+    </div>
+    {% else %}
+    <div class="no-data-message">
+        <p>No data or invalid selection. Please upload a dataset and select valid columns.</p>
+    </div>
+    {% endif %}
+
+</body>
+
+</html>

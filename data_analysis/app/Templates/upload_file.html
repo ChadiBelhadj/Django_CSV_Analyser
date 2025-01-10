@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background: linear-gradient(135deg, #6a0dad, #a4508b);
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            color: black; /* Dark black text */
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="file"]::file-selector-button {
+            border-radius: 4px;
+            padding: 0 16px;
+            height: 40px;
+            cursor: pointer;
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.16);
+            box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+            margin-right: 16px;
+            transition: background-color 200ms;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #f3f4f6;
+        }
+
+        input[type="file"]::file-selector-button:active {
+            background-color: #e5e7eb;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: linear-gradient(135deg, #00aaff, #00b5e2); /* Warmer blue */
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+
+        .actions {
+            margin-top: 20px;
+        }
+
+        .actions a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        ul li {
+            padding: 10px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 1rem;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li strong {
+            color: #007bff;
+        }
+
+        ul li:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+
+        ul li:hover {
+            background-color: #e9e9e9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Upload CSV File</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+
+        {% if stats %}
+        <h2>Data Stats</h2>
+        <p><strong>Rows:</strong> {{ stats.num_rows }}</p>
+        <p><strong>Columns:</strong> {{ stats.num_columns }}</p>
+        <p><strong>Column Names:</strong> {{ stats.columns|join:", " }}</p>
+        <p><strong>Contains Null Values:</strong> {% if stats.has_null_values %} Yes {% else %} No {% endif %}</p>
+
+        {% if stats.has_null_values %}
+        <h3>Null Values per Column:</h3>
+        <ul>
+            {% for column, count in stats.null_count.items %}
+            <li><strong>{{ column }}:</strong> {{ count }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% else %}
+        <p>No data uploaded yet. Please upload a file to view statistics.</p>
+        {% endif %}
+
+        <div class="actions">
+            <a href="{% url 'visualization' %}">Go to Visualization</a>
+            <a href="{% url 'statistical_analysis' %}">View Statistics</a>
+            <a href="{% url 'access_row_column' %}">Access Data</a>
+            <a href="{% url 'data_preview' %}">Data</a>
+        </div>
+    </div>
+</body>
+
+</html>
