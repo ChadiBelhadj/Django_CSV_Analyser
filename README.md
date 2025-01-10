@@ -24,7 +24,7 @@ Follow these steps to set up the project on your local machine:
 
 1. Clone the Repository
    ```
-   git clone https://github.com/ChadiBelhadj/django-csv-analyzer.git
+   git clone https://github.com/ChadiBelhadj/Django-CSV-Analyzer.git
   ``
   
 
